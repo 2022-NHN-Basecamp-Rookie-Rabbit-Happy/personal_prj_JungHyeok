@@ -25,6 +25,7 @@ public class GuestbookController {
 
     @GetMapping("/list")
     public void list(PageRequestDTO pageRequestDTO, Model model){
+
         model.addAttribute("result", guestbookService.getList(pageRequestDTO));
     }
 }
