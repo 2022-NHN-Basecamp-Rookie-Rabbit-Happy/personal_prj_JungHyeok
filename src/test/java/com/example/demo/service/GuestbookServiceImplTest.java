@@ -1,9 +1,11 @@
 package com.example.demo.service;
 
+import com.example.demo.configuration.BaseCampException;
 import com.example.demo.dto.GuestbookDTO;
 import com.example.demo.dto.PageRequestDTO;
 import com.example.demo.dto.PageResultDTO;
 import com.example.demo.entity.GuestBook;
+import com.example.demo.enums.ErrorCode;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.stream.LongStream;
 
 @SpringBootTest
@@ -64,6 +67,55 @@ class GuestbookServiceImplTest {
         GuestbookDTO read = guestbookService.read(-1L);
         Assertions.assertNull(read);
     }
+
+    @Test
+    @DisplayName("guestbookService의 remove 테스트 - 실패")
+    void removeTest(){
+        BaseCampException baseCampException =
+                Assertions.assertThrows(BaseCampException.class, () -> guestbookService.remove(-1L));
+
+        Assertions.assertEquals(baseCampException.getErrorCode().getDetail(), ErrorCode.GUESTBOOK_NOT_FOUND.getDetail());
+        Assertions.assertEquals(baseCampException.getErrorCode().getHttpStatus(), ErrorCode.GUESTBOOK_NOT_FOUND.getHttpStatus());
+
+    }
+
+    @Test
+    @DisplayName("guestBookService의 remove 테스트 - 성공 ")
+    void removeTestSuccess(){
+        GuestbookDTO guestbookDTO = makeDTO("dummy Title", "dummy Content", "dummy Writer");
+        Long register = guestbookService.register(guestbookDTO);
+
+        guestbookService.remove(register);
+    }
+
+    @Test
+    @DisplayName("guestBookService의 modify 테스트 - 실패 (pk가 존재하지 않는경우)")
+    void modifyTestFail(){
+        BaseCampException baseCampException = Assertions.assertThrows(BaseCampException.class, () -> guestbookService.modify(new GuestbookDTO(-1L, "title", "content", "wrtier"
+                , LocalDateTime.now(), LocalDateTime.now())));
+
+        Assertions.assertEquals(baseCampException.getErrorCode().getDetail(), ErrorCode.GUESTBOOK_NOT_FOUND.getDetail());
+        Assertions.assertEquals(baseCampException.getErrorCode().getHttpStatus(), ErrorCode.GUESTBOOK_NOT_FOUND.getHttpStatus());
+    }
+
+    @Test
+    @DisplayName("guestBookService의 modify 테스트 성공")
+    void modifyTestSuccess(){
+        GuestbookDTO guestbookDTO = makeDTO("dummy Title", "dummy Content", "dummy Writer");
+        Long register = guestbookService.register(guestbookDTO);
+        GuestbookDTO guestbookDTOModify = new GuestbookDTO();
+        guestbookDTOModify.setGno(register);
+        guestbookDTOModify.setTitle("modify Title");
+        guestbookDTOModify.setContent("modify Content");
+        guestbookService.modify(guestbookDTOModify);
+
+        GuestbookDTO read = guestbookService.read(register);
+        Assertions.assertEquals(read.getContent(),guestbookDTOModify.getContent());
+        Assertions.assertEquals(read.getTitle(),guestbookDTOModify.getTitle());
+        Assertions.assertEquals(read.getGno(),guestbookDTOModify.getGno());
+    }
+
+
 
     private GuestbookDTO makeDTO(String title, String content, String writer){
         GuestbookDTO guestbookDTO = new GuestbookDTO();
