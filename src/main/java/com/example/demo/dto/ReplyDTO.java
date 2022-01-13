@@ -1,27 +1,23 @@
-package com.example.demo.entity;
+package com.example.demo.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import java.time.LocalDateTime;
 
-@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class Reply extends BaseEntity{
+public class ReplyDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long rno;
-
     private String text;
-
     private String replyer;
+    private Long bno;
+    private LocalDateTime regDate;
+    private LocalDateTime modDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Board board;
 }
