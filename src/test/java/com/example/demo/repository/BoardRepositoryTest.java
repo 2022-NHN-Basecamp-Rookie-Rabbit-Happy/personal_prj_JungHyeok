@@ -11,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
@@ -94,6 +95,25 @@ class BoardRepositoryTest {
         Assertions.assertEquals("user100@aaa.com",writer.getEmail());
         System.out.println(replyCount);
         Assertions.assertTrue(replyCount>=0);
+    }
+
+    @Test
+    @DisplayName("searchPage 테스트")
+    void testSearchPage(){
+        Sort sort = Sort.by("bno").descending().and(Sort.by("title").ascending());
+        Pageable pageable = PageRequest.of(0, 10, sort);
+        Page<Object[]> t = boardRepository.searchPage("t", "1", pageable);
+        List<Object[]> content = t.getContent();
+        for(int i=0; i<content.size(); i++){
+            Object[] resultSet = content.get(i);
+            Board board = (Board) resultSet[0];
+            long replyCount = (long) resultSet[2];
+            Assertions.assertTrue(board.getTitle().contains("1"));
+            Assertions.assertTrue(replyCount >= 0);
+            if(i==content.size()-1)break;
+            Board nextBoard = (Board) content.get(i + 1)[0];
+            Assertions.assertEquals(1,board.getBno().compareTo(nextBoard.getBno()));
+        }
     }
 }
 
