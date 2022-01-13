@@ -1,0 +1,21 @@
+package com.example.demo.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.time.LocalDateTime;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+public class GuestbookDTO {
+    private Long gno;
+    private String title;
+    private String content;
+    private String writer;
+    private LocalDateTime regDate;
+    private LocalDateTime modDate;
+}

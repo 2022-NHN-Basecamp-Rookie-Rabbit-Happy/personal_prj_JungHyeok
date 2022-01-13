@@ -18,7 +18,7 @@ public class MakeSql {
         try(PrintWriter pw=new PrintWriter("src/main/resources/dummy.sql")){
 
             for(int i=1; i<=300; i++){
-                String data = "INSERT INTO guest_book (gno, moddate, regdate, content, title, writer) VALUES (" + i + ", NOW(), NOW(), 'Content..." + i + "', 'Title..."+i+"', " + "'user" + i%10 + "')";
+                String data = "INSERT INTO guest_book (gno, moddate, regdate, content, title, writer) VALUES (" + i + ", NOW(), NOW(), 'Content..." + i + "', 'Title..."+i+"', " + "'user" + i%10 + "');";
 //                String data = "INSERT INTO guest_book (gno) VALUE (" + i + ")";
                 pw.println(data);
             }
