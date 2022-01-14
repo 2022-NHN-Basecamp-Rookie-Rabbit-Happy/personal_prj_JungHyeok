@@ -9,7 +9,7 @@ import org.mapstruct.Mapping;
 @Mapper
 public interface BoardMapper {
 
-    @Mapping(target = "writer", expression = "java(makeMember(dto.getWriterEmail()))")
+    @Mapping(target = "writer", expression = "java(new Member(dto.getWriterEmail()))")
     Board dtoToEntity(BoardDTO dto);
 
     @Mapping(target = "bno", source = "board.bno")
@@ -22,7 +22,4 @@ public interface BoardMapper {
     @Mapping(target = "replyCount", expression = "java(replyCount.intValue())")
     BoardDTO entityToDTO(Board board, Member member, Long replyCount);
 
-    default Member makeMember(String email){
-        return new Member(email);
-    }
 }
