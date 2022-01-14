@@ -38,5 +38,5 @@ spring:
     password:
   jpa:
     hibernate:
-      dialect: org.hibernate.dialect.MariaDBDialect
+      dialect: org.hibernate.dialect.MariaDB103Dialect
       ddl-auto: create
