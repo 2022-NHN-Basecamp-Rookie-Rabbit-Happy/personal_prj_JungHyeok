@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.UUID;
 
 public class MakeSql {
 
@@ -61,6 +62,71 @@ public class MakeSql {
             for(int i=1; i<=300; i++) {
                 long bno = (long) (Math.random() * 100) + 1;
                 String data = "INSERT INTO reply (rno, moddate, regdate, replyer, text, board_bno) VALUES (" + i + ", NOW(), NOW(), 'guest', 'Reply......" + i + "', " + bno + ");";
+                pw.println(data);
+            }
+        }
+    }
+
+    @Test
+    @DisplayName("100개의 Movie data insert sql을 작성한다.")
+    @Disabled
+    void makeMovieDummy() throws FileNotFoundException {
+        try(PrintWriter pw=new PrintWriter("src/main/resources/dummy-movie.sql")){
+
+            for(int i=1; i<=100; i++){
+                String data = "INSERT INTO movie (mno, moddate, regdate, title) VALUES (" + i + ", NOW(), NOW(), 'Movie...." + i + "');";
+                pw.println(data);
+            }
+        }
+    }
+
+    @Test
+    @DisplayName("100개의 Movie data의 연관된 Movie Image를 만드는 sql을 작성한다.")
+    @Disabled
+    void makeMovieImageDummy() throws FileNotFoundException {
+        try(PrintWriter pw=new PrintWriter("src/main/resources/dummy-movie-image.sql")){
+
+            int moviePrimaryNumber = 0;
+            for(int i=1; i<=100; i++){
+
+                int count = (int) (Math.random() * 5) + 1;
+
+                for(int j=0; j<count; j++){
+                    String uuid = UUID.randomUUID().toString();
+                    String data = "INSERT INTO movie_image (inum, img_name, uuid, movie_mno) VALUES (" + (++moviePrimaryNumber) + ", 'test" + j + ".jpg', '" + uuid + "', " + i + ");";
+                    pw.println(data);
+                }
+            }
+        }
+    }
+
+    @Test
+    @DisplayName("영화 도메인의 Member엔티티를 100명 삽입하는 insert문을 작성한다.")
+    @Disabled
+    void makeMovieMemberDummy() throws FileNotFoundException {
+        try(PrintWriter pw=new PrintWriter("src/main/resources/dummy-movie-member.sql")){
+            for(int i=1; i<=100; i++){
+                String data = "INSERT INTO m_member (mid, moddate, regdate, email, nickname, pw) VALUES (" + i + ", NOW(), NOW(), 'r" + i + "zerock.org', 'reviewer" + i + "', '1111');";
+                pw.println(data);
+            }
+        }
+    }
+
+    @Test
+    @DisplayName("영화 도메인의 Review 엔티티를 200개 삽입하는 sql파일을 작성한다.")
+    @Disabled
+    void makeMovieReviewDummy() throws FileNotFoundException {
+
+        try(PrintWriter pw=new PrintWriter("src/main/resources/dummy-movie-review.sql")){
+            for(int i=1; i<=200; i++){
+                Long mno = (long) (Math.random() * 100) + 1;
+                Long mid = ((long) (Math.random() * 100) + 1);
+                int grade = (int) (Math.random() * 5) + 1;
+                String text = "이 영화에 대한 느낌..." + i;
+
+                String data = "INSERT INTO review (reviewnum, moddate, regdate, grade, text, member_mid, movie_mno) VALUES (" +
+                        i + ", NOW(), NOW(), " + grade + ", '" + text + "', " + mno + ", " + mid + ");";
+
                 pw.println(data);
             }
         }
