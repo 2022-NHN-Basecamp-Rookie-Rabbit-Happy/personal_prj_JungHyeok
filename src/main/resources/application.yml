@@ -13,6 +13,17 @@ spring:
     show-sql: true
   profiles:
     active: "local-db"
+  servlet:
+    multipart:
+      enabled: true
+    location: /Users/nhn/Documents/file
+    max-request-size: 30MB
+    max-file-size: 10MB
+
+org:
+  zerock:
+    upload:
+      path: /Users/nhn/Documents/file
 ---
 spring:
   config:
