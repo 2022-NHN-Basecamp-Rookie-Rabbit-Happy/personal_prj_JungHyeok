@@ -4,6 +4,7 @@ import com.example.demo.entity.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -11,6 +12,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 public class Review extends BaseEntity {
 
     @Id
@@ -26,4 +28,12 @@ public class Review extends BaseEntity {
     private int grade;
 
     private String text;
+
+    public void changeGrade(int grade){
+        this.grade = grade;
+    }
+
+    public void changeText(String text){
+        this.text = text;
+    }
 }

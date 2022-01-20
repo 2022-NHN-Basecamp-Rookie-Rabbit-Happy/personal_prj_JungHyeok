@@ -1,30 +1,31 @@
 package com.example.demo.dto.movie;
 
-import com.example.demo.entity.movie.MovieImage;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MovieDTO {
+@Getter
+@Setter
+public class ReviewDTO {
+
+    private Long reviewnum;
 
     private Long mno;
 
-    private String title;
+    private Long mid;
 
-    private List<MovieImageDTO> imageDTOList = new ArrayList<>();
+    private String nickname;
 
-    private double avg;
+    private String email;
 
-    private int reviewCnt;
+    private int grade;
+
+    private String text;
 
     private LocalDateTime regDate;
 
