@@ -13,6 +13,7 @@ public enum ErrorCode {
     GUESTBOOK_NOT_FOUND(HttpStatus.NOT_FOUND, "방명록이 존재하지 않습니다."),
     BOARD_NOT_FOUND(HttpStatus.NOT_FOUND, "게시글이 존재하지 않습니다."),
     REPLY_NOT_FOUND(HttpStatus.NOT_FOUND, "댓글이 존재하지 않습니다"),
+    REVIEW_NOT_FOUND(HttpStatus.NOT_FOUND, "리뷰가 존재하지 않습니다"),
 
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR,"처리과정중에 서버 오류가 발생했습니다.");
 

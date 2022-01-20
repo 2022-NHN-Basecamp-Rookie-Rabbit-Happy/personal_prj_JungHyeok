@@ -34,8 +34,8 @@ public class MovieRepositorySupportImpl extends QuerydslRepositorySupport implem
         query.leftJoin(movie).on(movie.eq(movieImage.movie));
         JPQLQuery<Tuple> tuple = query
                 .select(movie, movieImage,
-                        JPAExpressions.select(review.countDistinct()).from(review).where(review.movie.eq(movieImage.movie)),
-                        JPAExpressions.select(review.grade.avg()).from(review).where(review.movie.eq(movieImage.movie))
+                        JPAExpressions.select(review.grade.avg()).from(review).where(review.movie.eq(movieImage.movie)),
+                        JPAExpressions.select(review.countDistinct()).from(review).where(review.movie.eq(movieImage.movie))
                 )
                 .where(movieImage.inum.in(JPAExpressions.select(movieImage.inum.min()).from(movieImage).where(movie.eq(movieImage.movie))
                         .groupBy(movie, movieImage.movie))
